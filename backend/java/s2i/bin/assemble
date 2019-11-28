@@ -11,6 +11,10 @@ source "${JBOSS_CONTAINER_JAVA_S2I_MODULE}/s2i-core-hooks"
 # inject our overridden maven_s2i_*() functions
 source "${JBOSS_CONTAINER_JAVA_S2I_MODULE}/maven-s2i-overrides"
 
+# inject custom maven settings.xml into code
+mkdir configuration
+wget <file.ext> -O ./configuration
+
 # invoke the build
 maven_s2i_build
 
