@@ -13,7 +13,9 @@ source "${JBOSS_CONTAINER_JAVA_S2I_MODULE}/maven-s2i-overrides"
 
 # inject custom maven settings.xml into code
 mkdir configuration
-wget https://raw.githubusercontent.com/craq2017/flint-ocp-s2i/master/backend/java/configuration/settings.xml -O ./configuration
+pwd
+ls -la
+/usr/bin/wget https://raw.githubusercontent.com/craq2017/flint-ocp-s2i/master/backend/java/configuration/settings.xml -O ./configuration/settings.xml
 
 # invoke the build
 maven_s2i_build
