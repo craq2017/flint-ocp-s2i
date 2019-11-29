@@ -12,7 +12,7 @@ source "${JBOSS_CONTAINER_JAVA_S2I_MODULE}/s2i-core-hooks"
 source "${JBOSS_CONTAINER_JAVA_S2I_MODULE}/maven-s2i-overrides"
 
 # inject custom maven settings.xml into the source code
-SOURCE_ROOT = /tmp/src
+export="SOURCE_ROOT=/tmp/src"
 mkdir $SOURCE_ROOT/configuration
 curl -o $SOURCE_ROOT/configuration/settings.xml https://raw.githubusercontent.com/craq2017/flint-ocp-s2i/master/backend/java/configuration/settings.xml
 
