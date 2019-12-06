@@ -13,4 +13,11 @@ if [ ! -v NGINX_LOG_TO_VOLUME -a -v NGINX_LOG_PATH ]; then
     /bin/ln -s /dev/stderr ${NGINX_LOG_PATH}/error.log
 fi
 
+find /opt/app-root/src -name '*.js' -exec sed -i -e 's#@@REACT_APP_URL_INCIDENT@@#'$REACT_APP_URL_INCIDENT'#g' {} \;
+find /opt/app-root/src -name '*.js' -exec sed -i -e 's#@@REACT_APP_URL_INSPECTIONS@@#'$REACT_APP_URL_INSPECTIONS'#g' {} \;
+find /opt/app-root/src -name '*.js' -exec sed -i -e 's#@@REACT_APP_URL_ANALYSIS_RESULTS@@#'$REACT_APP_URL_ANALYSIS_RESULTS'#g' {} \;
+find /opt/app-root/src -name '*.js' -exec sed -i -e 's#@@REACT_APP_URL_ALGORITHM_CONSTRUCTOR@@#'$REACT_APP_URL_ALGORITHM_CONSTRUCTOR'#g' {} \;
+find /opt/app-root/src -name '*.js' -exec sed -i -e 's#@@REACT_APP_URL_REQUEST@@#'$REACT_APP_URL_REQUEST'#g' {} \;
+find /opt/app-root/src -name '*.js' -exec sed -i -e 's#@@REACT_APP_URL_AUTHORIZATION@@#'$REACT_APP_URL_AUTHORIZATION'#g' {} \;
+
 exec nginx -g "daemon off;"
