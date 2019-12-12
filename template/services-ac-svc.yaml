@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  name: services-ac-qa
+  selfLink: /api/v1/namespaces/flint-qa/services/services-ac-qa
+spec:
+  ports:
+  - name: port-1
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: port-2
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  - name: port-3
+    port: 8778
+    protocol: TCP
+    targetPort: 8778
+  selector:
+    deployment-config.name: services-ac-qa
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
