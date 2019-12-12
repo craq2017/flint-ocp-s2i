@@ -121,30 +121,10 @@ objects:
             value: thrift://adp-eiap-hnn1.adp.local:9083
           - name: AC_MMS_HOST_NAME
             value: http://bum:8080
-          - name: AC_MMS_USER
-            valueFrom:
-              secretKeyRef:
-                key: BUM_USER
-                name: bum-service-qa
-          - name: AC_MMS_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: BUM_PASSWORD
-                name: bum-service-qa
           - name: AC_INCIDENT_LIMIT
             value: "10"
           - name: AC_INCIDENT_DB_URL
             value: jdbc:postgresql://flintdb:5432/aresults
-          - name: AC_INCIDENT_DB_USER
-            valueFrom:
-              secretKeyRef:
-                key: AR_DB_USER
-                name: analysis-results-db-qa
-          - name: AC_INCIDENT_DB_PWD
-            valueFrom:
-              secretKeyRef:
-                key: AR_DB_PASSWORD
-                name: analysis-results-db-qa
           - name: AC_AUTH_URL
             value: http://auth-service-qa:8080
           - name: GC_MAX_METASPACE_SIZE
