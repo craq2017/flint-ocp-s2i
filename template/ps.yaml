@@ -33,9 +33,13 @@ objects:
     - name: 8080-tcp
       port: 8080
       protocol: TCP
-      targetPort: 8080-tcp
+      targetPort: 8080
     selector:
       name: ${NAME}
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
 - apiVersion: v1
   kind: Route
   metadata:
