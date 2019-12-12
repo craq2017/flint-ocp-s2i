@@ -195,37 +195,54 @@ parameters:
   required: true
   value: ac
 - displayName: Database User Password
+  required: true
   name: AC_DB_PASSWORD
-- displayName: Other environment variables
+  value: ac
+- displayName: AC_MIGRATION_ENABLED
   name: AC_MIGRATION_ENABLED
   value: "true"
+- displayName: AC_CE_BUM_TABLE_META
   name: AC_CE_BUM_TABLE_META
   value: "86400000"
+- displayName: AC_CE_SQL_TABLE_META
   name: AC_CE_SQL_TABLE_META
   value: "86400000"
+- displayName: AC_CSUD_HOST_NAME
   name: AC_CSUD_HOST_NAME
   value: http://10.250.25.16:9901
+- displayName: AC_NAME_OF_SUBSYSTEM
   name: AC_NAME_OF_SUBSYSTEM
   value: flint-ac
+- displayName: AC_AR_HOST
   name: AC_AR_HOST
   value: http://analysis-results-qa:8080/analysis-results
+- displayName: AC_LAUNCH_WFNMEUNQ
   name: AC_LAUNCH_WFNMEUNQ
   value: tmp_wf_AC_flint_manual_tsk_loader
+- displayName: AC_LAUNCH_SPARK_MASTER
   name: AC_LAUNCH_SPARK_MASTER
   value: local
+- displayName: AC_LAUNCH_RPE
   name: AC_LAUNCH_RPE
   value: "false"
+- displayName: AC_LAUNCH_E_METASTORE
   name: AC_LAUNCH_E_METASTORE
   value: thrift://adp-eiap-hnn1.adp.local:9083
+- displayName: AC_LAUNCH_METASTORE
   name: AC_LAUNCH_METASTORE
   value: thrift://adp-eiap-hnn1.adp.local:9083
+- displayName: AC_MMS_HOST_NAME
   name: AC_MMS_HOST_NAME
   value: http://bum:8080
+- displayName: AC_INCIDENT_LIMIT
   name: AC_INCIDENT_LIMIT
   value: "10"
+- displayName: AC_INCIDENT_DB_URL
   name: AC_INCIDENT_DB_URL
   value: jdbc:postgresql://flintdb:5432/aresults
+- displayName: AC_AUTH_URL
   name: AC_AUTH_URL
   value: http://auth-service-qa:8080
+- displayName: GC_MAX_METASPACE_SIZE
   name: GC_MAX_METASPACE_SIZE
   value: "256"
