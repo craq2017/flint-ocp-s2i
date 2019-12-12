@@ -13,14 +13,15 @@ metadata:
     template.openshift.io/bindable: "false"
   creationTimestamp: null
   name: service-ac
+  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/service-ac
 objects:
 - apiVersion: v1
   kind: Secret
   metadata:
     name: ${NAME}
   stringData:
-    database-password: ${AC_DB_PASSWORD}
-    database-user: ${AC_DB_USER}
+    ac-db-password: ${AC_DB_PASSWORD}
+    ac-db-user: ${AC_DB_USER}
 - apiVersion: v1
   kind: Service
   metadata:
@@ -86,33 +87,21 @@ objects:
         containers:
         - env:
           - name: AC_DB_USER
-          valueFrom:
-            secretKeyRef:
-              key: database-user
-              name: ${NAME}
-           - name: AC_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: database-password
-              name: ${NAME}
+            valueFrom:
+              secretKeyRef:
+                key: ac-db-user
+                name: ${NAME}
+          - name: AC_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: ac-db-password
+                name: ${NAME}
           - name: DATABASE_SERVICE_NAME
             value: ${DATABASE_SERVICE_NAME}
-          - name: DATABASE_NAME
-            value: ${DATABASE_NAME}
           - name: APP_CONFIG
             value: ${APP_CONFIG}
-          - name: SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                key: django-secret-key
-                name: ${NAME}
           - name: IS_DEBUG
             value: "False"
-          - name: EMAIL_URL
-            valueFrom:
-              secretKeyRef:
-                key: email-url
-                name: ${NAME}
           - name: FROM_EMAIL
             value: ${FROM_EMAIL}
           - name: EMAIL_CONFIRMATION_HOST
@@ -161,11 +150,7 @@ parameters:
 - displayName: Database Service Name
   name: DATABASE_SERVICE_NAME
   required: true
-  value: postgresql
-- displayName: Database Name
-  name: DATABASE_NAME
-  required: true
-  value: default
+  value: services-ac
 - displayName: Database Username
   name: AC_DB_USER
   required: true
