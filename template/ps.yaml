@@ -12,8 +12,7 @@ metadata:
     openshift.io/provider-display-name: GNIVC
     template.openshift.io/bindable: "false"
   creationTimestamp: null
-  name: service-ac
-  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/service-ac
+  name: services-ac
 objects:
 - apiVersion: v1
   kind: Secret
@@ -26,7 +25,7 @@ objects:
   kind: Service
   metadata:
     annotations:
-      service.alpha.openshift.io/dependencies: '[{"name": "${DATABASE_SERVICE_NAME}",
+      service.alpha.openshift.io/dependencies: '[{"name": "${SERVICE_NAME}",
         "kind": "Service"}]'
     name: ${NAME}
   spec:
@@ -96,20 +95,60 @@ objects:
               secretKeyRef:
                 key: ac-db-password
                 name: ${NAME}
-          - name: DATABASE_SERVICE_NAME
-            value: ${DATABASE_SERVICE_NAME}
-          - name: APP_CONFIG
-            value: ${APP_CONFIG}
-          - name: IS_DEBUG
-            value: "False"
-          - name: FROM_EMAIL
-            value: ${FROM_EMAIL}
-          - name: EMAIL_CONFIRMATION_HOST
-            value: ${APPLICATION_DOMAIN}
-          - name: IS_PRIVATE_ORG_MODE
-            value: ${IS_PRIVATE_ORG_MODE}
-          - name: ENVIRONMENT
-            value: production
+          - name: SERVICE_NAME
+            value: ${SERVICE_NAME}
+          - name: AC_MIGRATION_ENABLED
+            value: "true"
+          - name: AC_CE_BUM_TABLE_META
+            value: "86400000"
+          - name: AC_CE_SQL_TABLE_META
+            value: "86400000"
+          - name: AC_CSUD_HOST_NAME
+            value: http://10.250.25.16:9901
+          - name: AC_NAME_OF_SUBSYSTEM
+            value: flint-ac
+          - name: AC_AR_HOST
+            value: http://analysis-results-qa:8080/analysis-results
+          - name: AC_LAUNCH_WFNMEUNQ
+            value: tmp_wf_AC_flint_manual_tsk_loader
+          - name: AC_LAUNCH_SPARK_MASTER
+            value: local
+          - name: AC_LAUNCH_RPE
+            value: "false"
+          - name: AC_LAUNCH_E_METASTORE
+            value: thrift://adp-eiap-hnn1.adp.local:9083
+          - name: AC_LAUNCH_METASTORE
+            value: thrift://adp-eiap-hnn1.adp.local:9083
+          - name: AC_MMS_HOST_NAME
+            value: http://bum:8080
+          - name: AC_MMS_USER
+            valueFrom:
+              secretKeyRef:
+                key: BUM_USER
+                name: bum-service-qa
+          - name: AC_MMS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: BUM_PASSWORD
+                name: bum-service-qa
+          - name: AC_INCIDENT_LIMIT
+            value: "10"
+          - name: AC_INCIDENT_DB_URL
+            value: jdbc:postgresql://flintdb:5432/aresults
+          - name: AC_INCIDENT_DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: AR_DB_USER
+                name: analysis-results-db-qa
+          - name: AC_INCIDENT_DB_PWD
+            valueFrom:
+              secretKeyRef:
+                key: AR_DB_PASSWORD
+                name: analysis-results-db-qa
+          - name: AC_AUTH_URL
+            value: http://auth-service-qa:8080
+          - name: GC_MAX_METASPACE_SIZE
+            value: "256"
           image: '${NAME} '
           name: ${NAME}
           ports:
@@ -133,43 +172,60 @@ parameters:
   name: NAME
   required: true
   value: services-ac
-- description: The OpenShift Namespace where the ImageStream services-ac is.
+- description: Namespace where the ImageStream services-ac is.
   displayName: Namespace
   name: NAMESPACE
   required: true
   value: template
-- description: Maximum amount of memory the Passit django container can use.
+- description: Maximum amount of memory the service-ac container can use.
   displayName: Memory Limit
   name: MEMORY_LIMIT
   required: true
   value: 512Mi
-- description: The exposed hostname that will route to the Django service, if left
+- description: The exposed hostname that will route to the service-ac, if left
     blank a value will be defaulted.
   displayName: Application Hostname
   name: APPLICATION_DOMAIN
-- displayName: Database Service Name
-  name: DATABASE_SERVICE_NAME
+- displayName: Service Name
+  name: SERVICE_NAME
   required: true
   value: services-ac
 - displayName: Database Username
   name: AC_DB_USER
   required: true
-  value: django
+  value: ac
 - displayName: Database User Password
   name: AC_DB_PASSWORD
-  required: true
-- description: Set this to a long random string.
-  displayName: Django Secret Key
-  from: '[\w]{50}'
-  generate: expression
-  name: DJANGO_SECRET_KEY
-- displayName: EMAIL SMTP authentication URL. Defaults only to console mail (does
-    not send email). Example smtp://postmaster@passit.io:password@smtp.example.com
-  name: EMAIL_URL
-  value: consolemail://
-- displayName: Is this a private server where all user contacts should be shared with
-    other users? Such as a company's internal passit server. If you don't know it's
-    fine to set to false.
-  name: IS_PRIVATE_ORG_MODE
-  required: true
-  value: "False"
+- displayName: Other environment variables
+  name: AC_MIGRATION_ENABLED
+  value: "true"
+  name: AC_CE_BUM_TABLE_META
+  value: "86400000"
+  name: AC_CE_SQL_TABLE_META
+  value: "86400000"
+  name: AC_CSUD_HOST_NAME
+  value: http://10.250.25.16:9901
+  name: AC_NAME_OF_SUBSYSTEM
+  value: flint-ac
+  name: AC_AR_HOST
+  value: http://analysis-results-qa:8080/analysis-results
+  name: AC_LAUNCH_WFNMEUNQ
+  value: tmp_wf_AC_flint_manual_tsk_loader
+  name: AC_LAUNCH_SPARK_MASTER
+  value: local
+  name: AC_LAUNCH_RPE
+  value: "false"
+  name: AC_LAUNCH_E_METASTORE
+  value: thrift://adp-eiap-hnn1.adp.local:9083
+  name: AC_LAUNCH_METASTORE
+  value: thrift://adp-eiap-hnn1.adp.local:9083
+  name: AC_MMS_HOST_NAME
+  value: http://bum:8080
+  name: AC_INCIDENT_LIMIT
+  value: "10"
+  name: AC_INCIDENT_DB_URL
+  value: jdbc:postgresql://flintdb:5432/aresults
+  name: AC_AUTH_URL
+  value: http://auth-service-qa:8080
+  name: GC_MAX_METASPACE_SIZE
+  value: "256"
