@@ -30,10 +30,10 @@ objects:
     name: ${NAME}
   spec:
     ports:
-    - name: 8080-http
+    - name: 8080-tcp
       port: 8080
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8080-tcp
     selector:
       name: ${NAME}
 - apiVersion: v1
