@@ -13,17 +13,14 @@ metadata:
     template.openshift.io/bindable: "false"
   creationTimestamp: null
   name: service-ac
-  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/service-ac
 objects:
 - apiVersion: v1
   kind: Secret
   metadata:
     name: ${NAME}
   stringData:
-    database-password: ${DATABASE_PASSWORD}
-    database-user: ${DATABASE_USER}
-    django-secret-key: ${DJANGO_SECRET_KEY}
-    email-url: ${EMAIL_URL}
+    database-password: ${AC_DB_PASSWORD}
+    database-user: ${AC_DB_USER}
 - apiVersion: v1
   kind: Service
   metadata:
@@ -88,20 +85,20 @@ objects:
       spec:
         containers:
         - env:
+          - name: AC_DB_USER
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: ${NAME}
+           - name: AC_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: ${NAME}
           - name: DATABASE_SERVICE_NAME
             value: ${DATABASE_SERVICE_NAME}
           - name: DATABASE_NAME
             value: ${DATABASE_NAME}
-          - name: DATABASE_USER
-            valueFrom:
-              secretKeyRef:
-                key: database-user
-                name: ${NAME}
-          - name: DATABASE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: database-password
-                name: ${NAME}
           - name: APP_CONFIG
             value: ${APP_CONFIG}
           - name: SECRET_KEY
@@ -142,16 +139,16 @@ objects:
       type: ImageChange
     - type: ConfigChange
 parameters:
-- description: The name assigned to all of the frontend objects defined in this template.
+- description: The name assigned to all of the objects defined in this template.
   displayName: Name
   name: NAME
   required: true
-  value: passit
-- description: The OpenShift Namespace where the ImageStream resides.
+  value: services-ac
+- description: The OpenShift Namespace where the ImageStream services-ac is.
   displayName: Namespace
   name: NAMESPACE
   required: true
-  value: openshift
+  value: template
 - description: Maximum amount of memory the Passit django container can use.
   displayName: Memory Limit
   name: MEMORY_LIMIT
@@ -170,11 +167,11 @@ parameters:
   required: true
   value: default
 - displayName: Database Username
-  name: DATABASE_USER
+  name: AC_DB_USER
   required: true
   value: django
 - displayName: Database User Password
-  name: DATABASE_PASSWORD
+  name: AC_DB_PASSWORD
   required: true
 - description: Set this to a long random string.
   displayName: Django Secret Key
