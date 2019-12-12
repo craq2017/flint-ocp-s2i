@@ -1,0 +1,155 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: amq-app-deploy-template
+metadata:
+  annotations:
+    description: A template to deploy your an App
+    openshift.io/display-name: App Deploy Template
+    tags: app-deploy
+  creationTimestamp: null
+  name: amq-app-deploy
+  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/amq-app-deploy
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    annotations:
+      template.openshift.io/expose-password: '{.data[''database-password'']}'
+      template.openshift.io/expose-username: '{.data[''database-user'']}'
+    name: ${NAME}
+  stringData:
+    database-password: ${AC_DB_PASSWORD}
+    database-user: ${AC_DB_USER}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      build: ${IMAGE_STREAM_NAME}
+    name: ${IMAGE_STREAM_NAME}
+  spec: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${NAME}
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    name: ${NAME}
+  spec:
+    containers:
+    - env:
+      - name: AC_PORT
+        value: "8080"
+      - name: AC_DB_URL
+        value: jdbc:postgresql://flintdb:5432/ac
+      - name: AC_DB_USER
+        valueFrom:
+          secretKeyRef:
+            key: AC_DB_USER
+            name: ${NAME}
+      - name: AC_DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: AC_DB_PASSWORD
+            name: ${NAME}
+      - name: AC_MIGRATION_ENABLED
+        value: "true"
+      - name: AC_CE_BUM_TABLE_META
+        value: "86400000"
+      - name: AC_CE_SQL_TABLE_META
+        value: "86400000"
+      - name: AC_CSUD_HOST_NAME
+        value: http://10.250.25.16:9901
+      - name: AC_NAME_OF_SUBSYSTEM
+        value: flint-ac
+      - name: AC_AR_HOST
+        value: http://analysis-results-qa:8080/analysis-results
+      - name: AC_LAUNCH_WFNMEUNQ
+        value: tmp_wf_AC_flint_manual_tsk_loader
+      - name: AC_LAUNCH_SPARK_MASTER
+        value: local
+      - name: AC_LAUNCH_RPE
+        value: "false"
+      - name: AC_LAUNCH_E_METASTORE
+        value: thrift://adp-eiap-hnn1.adp.local:9083
+      - name: AC_LAUNCH_METASTORE
+        value: thrift://adp-eiap-hnn1.adp.local:9083
+      - name: AC_MMS_HOST_NAME
+        value: http://bum:8080
+      - name: AC_MMS_USER
+        valueFrom:
+          secretKeyRef:
+            key: BUM_USER
+            name: bum-service-qa
+      - name: AC_MMS_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: BUM_PASSWORD
+            name: bum-service-qa
+      - name: AC_INCIDENT_LIMIT
+        value: "10"
+      - name: AC_INCIDENT_DB_URL
+        value: jdbc:postgresql://flintdb:5432/aresults
+      - name: AC_INCIDENT_DB_USER
+        valueFrom:
+          secretKeyRef:
+            key: AR_DB_USER
+            name: analysis-results-db-qa
+      - name: AC_INCIDENT_DB_PWD
+        valueFrom:
+          secretKeyRef:
+            key: AR_DB_PASSWORD
+            name: analysis-results-db-qa
+      - name: AC_AUTH_URL
+        value: http://auth-service-qa:8080
+      - name: GC_MAX_METASPACE_SIZE
+        value: "256"
+      image: docker-registry.default.svc:5000/services-ac-dev/services-ac-dev:qa
+      imagePullPolicy: Always
+      name: default-container
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+    dnsPolicy: ClusterFirst
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: ${NAME}
+parameters:
+- description: The name assigned to all objects
+  displayName: Name
+  name: NAME
+  required: true
+  value: ac
+- description: The related imagestream name.
+  displayName: Image Stream Name
+  name: IMAGE_STREAM_NAME
+  required: true
+  value: ac
+- description: Username for PostgreSQL user that will be used for accessing the database.
+  displayName: PostgreSQL Connection Username
+  name: AC_DB_USER
+  required: true
+  value: ac
+- description: Password for the PostgreSQL connection user.
+  displayName: PostgreSQL Connection Password
+  name: AC_DB_PASSWORD

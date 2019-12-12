@@ -11,8 +11,9 @@ metadata:
     openshift.io/documentation-url: https://gnivc.ru
     openshift.io/provider-display-name: GNIVC
     template.openshift.io/bindable: "false"
+  creationTimestamp: null
   name: service-ac
-  namespace: template
+  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/service-ac
 objects:
 - apiVersion: v1
   kind: Secret
@@ -123,7 +124,7 @@ objects:
             value: ${IS_PRIVATE_ORG_MODE}
           - name: ENVIRONMENT
             value: production
-          image: ' '
+          image: '${NAME} '
           name: ${NAME}
           ports:
           - containerPort: 8080
