@@ -53,7 +53,6 @@ objects:
   kind: ImageStream
   metadata:
     annotations:
-      description: Stable Passit docker image
     name: ${NAME}
   spec:
     tags:
@@ -65,7 +64,6 @@ objects:
   kind: DeploymentConfig
   metadata:
     annotations:
-      description: Defines how to deploy the passit docker image
       template.alpha.openshift.io/wait-for-ready: "true"
     name: ${NAME}
   spec:
@@ -132,7 +130,7 @@ objects:
             value: http://auth-service-qa:8080
           - name: GC_MAX_METASPACE_SIZE
             value: "256"
-          image: '${NAME} '
+          image: '${NAME}'
           name: ${NAME}
           ports:
           - containerPort: 8080
