@@ -41,8 +41,6 @@ objects:
     name: ${NAME}
   spec:
     host: ${APPLICATION_DOMAIN}
-    tls:
-      termination: edge
     to:
       kind: Service
       name: ${NAME}
