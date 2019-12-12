@@ -1,22 +1,18 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  app: passit
-  template: passit
+  app: services-ac
+  template: services-ac
 message: 'The following service(s) have been created in your project: ${NAME}.'
 metadata:
   annotations:
-    description: Passit - the open source Password Manager
-    openshift.io/display-name: Passit PostgreSQL
-    openshift.io/documentation-url: https://passit.io
-    openshift.io/provider-display-name: Burke Software and Consulting
+    description: FLINT
+    openshift.io/display-name: services-ac
+    openshift.io/documentation-url: https://gnivc.ru
+    openshift.io/provider-display-name: GNIVC
     template.openshift.io/bindable: "false"
-  creationTimestamp: 2019-12-12T18:59:26Z
-  name: passit
+  name: service-ac
   namespace: template
-  resourceVersion: "92639490"
-  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/passit
-  uid: 84c15909-1d11-11ea-991c-0050569a1f76
 objects:
 - apiVersion: v1
   kind: Secret
@@ -31,7 +27,6 @@ objects:
   kind: Service
   metadata:
     annotations:
-      description: Passit django backend + Angular frontend
       service.alpha.openshift.io/dependencies: '[{"name": "${DATABASE_SERVICE_NAME}",
         "kind": "Service"}]'
     name: ${NAME}
@@ -63,7 +58,7 @@ objects:
     tags:
     - from:
         kind: DockerImage
-        name: passit/passit:stable
+        name: template/app:latest
       name: latest
 - apiVersion: v1
   kind: DeploymentConfig
@@ -129,7 +124,7 @@ objects:
           - name: ENVIRONMENT
             value: production
           image: ' '
-          name: passit
+          name: ${NAME}
           ports:
           - containerPort: 8080
           resources:
@@ -139,7 +134,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - passit
+        - ${NAME}
         from:
           kind: ImageStreamTag
           name: ${NAME}:latest
