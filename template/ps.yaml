@@ -21,6 +21,10 @@ objects:
   stringData:
     ac-db-password: ${AC_DB_PASSWORD}
     ac-db-user: ${AC_DB_USER}
+    bum-user: ${AC_MMS_USER}
+    bum-password: ${AC_MMS_PASSWORD}
+    ac-incident-db-user: ${AC_INCIDENT_DB_USER}
+    ac-incident-db-pwd: ${AC_INCIDENT_DB_PWD}
 - apiVersion: v1
   kind: Service
   metadata:
@@ -33,7 +37,7 @@ objects:
     - name: 8080-tcp
       port: 8080
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8080-tcp
     selector:
       name: ${NAME}
     sessionAffinity: None
@@ -86,6 +90,10 @@ objects:
       spec:
         containers:
         - env:
+          - name: AC_PORT
+            value: "8080"
+          - name: AC_DB_URL
+            value: jdbc:postgresql://flintdb:5432/ac
           - name: AC_DB_USER
             valueFrom:
               secretKeyRef:
@@ -122,10 +130,30 @@ objects:
             value: thrift://adp-eiap-hnn1.adp.local:9083
           - name: AC_MMS_HOST_NAME
             value: http://bum:8080
+          - name: AC_MMS_USER
+            valueFrom:
+              secretKeyRef:
+                key: bum-user
+                name: ${NAME}
+          - name: AC_MMS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: bum-password
+                name: ${NAME}
           - name: AC_INCIDENT_LIMIT
             value: "10"
           - name: AC_INCIDENT_DB_URL
             value: jdbc:postgresql://flintdb:5432/aresults
+          - name: AC_INCIDENT_DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: ac-incident-db-user
+                name: ${NAME}
+          - name: AC_INCIDENT_DB_PWD
+            valueFrom:
+              secretKeyRef:
+                key: ac-incident-db-pwd
+                name: ${NAME}
           - name: AC_AUTH_URL
             value: http://auth-service-qa:8080
           - name: GC_MAX_METASPACE_SIZE
@@ -171,6 +199,12 @@ parameters:
   name: SERVICE_NAME
   required: true
   value: services-ac
+- displayName: AC_PORT
+  name: AC_PORT
+  value: "8080"
+- displayName: AC_DB_URL
+  name: AC_DB_URL
+  value: jdbc:postgresql://flintdb:5432/ac
 - displayName: Database Username
   name: AC_DB_USER
   required: true
@@ -215,12 +249,24 @@ parameters:
 - displayName: AC_MMS_HOST_NAME
   name: AC_MMS_HOST_NAME
   value: http://bum:8080
+- displayName: AC_MMS_USER
+  name: AC_MMS_USER
+  value: user
+- displayName: AC_MMS_PASSWORD
+  name: AC_MMS_PASSWORD
+  value: password
 - displayName: AC_INCIDENT_LIMIT
   name: AC_INCIDENT_LIMIT
   value: "10"
 - displayName: AC_INCIDENT_DB_URL
   name: AC_INCIDENT_DB_URL
   value: jdbc:postgresql://flintdb:5432/aresults
+- displayName: AC_INCIDENT_DB_URL
+  name: AC_INCIDENT_DB_USER
+  value: user
+- displayName: AC_INCIDENT_DB_PWD
+  name: AC_INCIDENT_DB_PWD
+  value: password
 - displayName: AC_AUTH_URL
   name: AC_AUTH_URL
   value: http://auth-service-qa:8080
