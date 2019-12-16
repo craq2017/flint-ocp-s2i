@@ -13,7 +13,6 @@ metadata:
     template.openshift.io/bindable: "false"
   creationTimestamp: null
   name: services-ac
-  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/services-ac
 objects:
 - apiVersion: v1
   kind: Secret
