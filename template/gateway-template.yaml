@@ -26,7 +26,7 @@ objects:
     - name: 8080-tcp
       port: 8080
       protocol: TCP
-      targetPort: 8080-tcp
+      targetPort: 8080
     selector:
       name: ${NAME}
     sessionAffinity: None
@@ -40,7 +40,7 @@ objects:
   spec:
     host: ${APPLICATION_DOMAIN}
     port:
-      targetPort: 8080-tcp
+      targetPort: 8080
     to:
       kind: Service
       name: ${NAME}
@@ -71,19 +71,19 @@ objects:
         containers:
         - env:
           - name: GATEWAY_PORT
-            value: '8080'
+            value: ${GATEWAY_PORT}
           - name: INCIDENTS_URL
-            value: 'http://incident-core-qa:8080'
+            value: ${INCIDENTS_URL}
           - name: INSPECTIONS_URL
-            value: 'http://qaplan-qa:8080'
+            value: ${INSPECTIONS_URL}
           - name: ANALYSIS_RESULTS_URL
-            value: 'http://analysis-results-qa:8080'
+            value: ${ANALYSIS_RESULTS_URL}
           - name: ALGORITHMS_URL
-            value: 'http://services-ac-qa:8080/api/v1'
+            value: ${ALGORITHMS_URL}
           - name: REQUESTS_URL
-            value: 'http://services-requests-qa:8080'
+            value: ${REQUESTS_URL}
           - name: AUTHORIZATION_URL
-            value: 'http://auth-service-qa:8080'
+            value: ${AUTHORIZATION_URL}
           image: ${NAME}
           name: ${NAME}
           ports:
@@ -120,26 +120,24 @@ parameters:
   name: SERVICE_NAME
   required: true
   value: analysis-results
-- displayName: AR_PORT
-  name: AR_PORT
+- displayName: GATEWAY_PORT
+  name: GATEWAY_PORT
   value: "8080"
-- displayName: AR_DB_URL
-  name: AR_DB_URL
-  value: jdbc:postgresql://flintdb:5432/aresults
-- displayName: Database Username
-  name: AR_DB_USER
-  required: true
-  value: ac
-- displayName: Database User Password
-  name: AR_DB_PASSWORD
-  required: true
-  value: ac
-- displayName: AR_MIGRATION_ENABLED
-  name: AR_MIGRATION_ENABLED
-  value: "true"
-- displayName: AR_DATA_MAX_RESULTS
-  name: AR_DATA_MAX_RESULTS
-  value: "10"
-- displayName: AR_LOG_INFO
-  name: AR_LOG_INFO
-  value: "info"
+- displayName: INCIDENTS_URL
+  name: INCIDENTS_URL
+  value: 'http://incident-core-qa:8080'
+- displayName: INSPECTIONS_URL
+  name: INSPECTIONS_URL
+  value: 'http://qaplan-qa:8080'
+- displayName: ANALYSIS_RESULTS_URL
+  name: ANALYSIS_RESULTS_URL
+  value: 'http://analysis-results-qa:8080'
+- displayName: ALGORITHMS_URL
+  name: ALGORITHMS_URL
+  value: 'http://services-ac-qa:8080/api/v1'
+- displayName: REQUESTS_URL
+  name: REQUESTS_URL
+  value: 'http://services-requests-qa:8080'
+- displayName: AUTHORIZATION_URL
+  name: AUTHORIZATION_URL
+  value: 'http://auth-service-qa:8080'
