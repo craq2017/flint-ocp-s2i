@@ -136,8 +136,8 @@ parameters:
 - displayName: Database Username
   name: AUTH_DB_USER
   required: true
-  value: ac
+  value: auth_services
 - displayName: Database User Password
   name: AUTH_DB_PASSWORD
   required: true
-  value: ac
+  value: auth_services
