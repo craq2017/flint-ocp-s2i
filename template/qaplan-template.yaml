@@ -198,7 +198,7 @@ parameters:
 - displayName: QAP_BUM_USER 
   name: QAP_BUM_USER
   value: "user"
-- displayName: QAP_BUM_USER 
+- displayName: QAP_BUM_PASSWORD 
   name: QAP_BUM_PASSWORD
   value: "password"
 - displayName: QAP_AC_WF_NAME 
@@ -213,6 +213,6 @@ parameters:
 - displayName: QAP_INCIDENT_USER
   name: QAP_INCIDENT_USER
   value: "user"
-- displayName: INCIDENT_PASSWORD  
-  name: INCIDENT_PASSWORD
+- displayName: QAP_INCIDENT_PASSWORD
+  name: QAP_INCIDENT_PASSWORD
   value: "password"
