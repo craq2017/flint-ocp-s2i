@@ -117,7 +117,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: services-ac
+  value: analysis-results
 - description: Maximum amount of memory the service-ac container can use.
   displayName: Memory Limit
   name: MEMORY_LIMIT
