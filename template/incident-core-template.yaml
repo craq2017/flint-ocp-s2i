@@ -1,0 +1,213 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  app: flint-analysis-results
+  template: flint-analysis-results
+message: 'The following service(s) have been created in your project: ${NAME}.'
+metadata:
+  annotations:
+    description: FLINT
+    openshift.io/display-name: flint-analysis-results
+    openshift.io/documentation-url: https://gnivc.ru
+    openshift.io/provider-display-name: GNIVC
+    template.openshift.io/bindable: "false"
+  creationTimestamp: null
+  name: flint-analysis-results
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${NAME}
+  stringData:
+    incident-core-db-password: ${INCIDENT_DB_PASSWORD}
+    incident-core-db-user: ${INCIDENT_DB_USER}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.alpha.openshift.io/dependencies: '[{"name": "${SERVICE_NAME}", "kind":
+        "Service"}]'
+    name: ${NAME}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      name: ${NAME}
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${NAME}
+  spec:
+    host: ${APPLICATION_DOMAIN}
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: ${NAME}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+    name: ${NAME}
+  spec:
+    replicas: 1
+    selector:
+      name: ${NAME}
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 0%
+        maxUnavailable: 100%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          name: ${NAME}
+        name: ${NAME}
+      spec:
+        containers:
+        - env:
+          - name: INCIDENT_PORT
+            value: ${INCIDENT_PORT}
+          - name: INCIDENT_DB_URL
+            value: ${INCIDENT_DB_URL}
+          - name: INCIDENT_DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: incident-core-db-user
+                name: ${NAME}
+          - name: INCIDENT_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: incident-core-db-password
+                name: ${NAME}
+          - name: INCIDENT_SERVICE_INSTANCE_ID
+            value: ${INCIDENT_SERVICE_INSTANCE_ID}
+          - name: INCIDENT_SERVICE_AVAILABLE_INSTANCE_IDS
+            value: ${INCIDENT_SERVICE_AVAILABLE_INSTANCE_IDS}
+          - name: INCIDENT_ELASTICSEARCH_URL
+            value: ${INCIDENT_ELASTICSEARCH_URL}
+          - name: INCIDENT_DATA_INITIALIZE
+            value: ${INCIDENT_DATA_INITIALIZE}
+          - name: SOON_SERVER_URL
+            value: ${SOON_SERVER_URL}
+          - name: SOON_SERVER_ENABLED
+            value: ${SOON_SERVER_ENABLED}
+          - name: SOON_SERVER_CALL_PERIOD
+            value: ${SOON_SERVER_CALL_PERIOD}
+          - name: SOON_PROCESSING_NOT_REGISTERED_ENABLED
+            value: ${SOON_PROCESSING_NOT_REGISTERED_ENABLED}
+          - name: SOON_PROCESSING_NON_TERMINAL_ENABLED
+            value: ${SOON_PROCESSING_NON_TERMINAL_ENABLED}
+          - name: SOON_SERVER_CALL_START_DELAY
+            value: ${SOON_SERVER_CALL_START_DELAY}
+          - name: SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY
+            value: ${SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY}
+          - name: SOURCE_ID_VALUE
+            value: ${SOURCE_ID_VALUE}
+          - name: APPEAL_TYPE_ID
+            value: ${APPEAL_TYPE_ID}
+          - name: TAX_CODE
+            value: ${TAX_CODE}
+          image: ${NAME}
+          name: ${NAME}
+          ports:
+          - containerPort: 8080
+          resources:
+            limits:
+              memory: ${MEMORY_LIMIT}
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}:latest
+      type: ImageChange
+    - type: ConfigChange
+parameters:
+- description: The name assigned to all of the objects defined in this template. For successful deployment there have to be imagestream with same name in chosen namespace.
+  displayName: Name
+  name: NAME
+  required: true
+  value: analysis-results
+- description: Maximum amount of memory the service-ac container can use.
+  displayName: Memory Limit
+  name: MEMORY_LIMIT
+  required: true
+  value: 1Gi
+- description: The exposed hostname that will route to the service-ac, if left blank
+    a value will be defaulted.
+  displayName: Application Hostname
+  name: APPLICATION_DOMAIN
+- displayName: Service Name
+  name: SERVICE_NAME
+  required: true
+  value: analysis-results
+- displayName: INCIDENT_PORT
+  name: INCIDENT_PORT
+  value: "8080"
+- displayName: INCIDENT_DB_URL
+  name: INCIDENT_DB_URL
+  value: 'jdbc:postgresql://flintdb:5432/flint_incident'
+- displayName: Database Username
+  name: INCIDENT_DB_USER
+  required: true
+  value: ac
+- displayName: Database User Password
+  name: INCIDENT_DB_PASSWORD
+  required: true
+  value: ac
+- displayName: INCIDENT_SERVICE_INSTANCE_ID
+  name: INCIDENT_SERVICE_INSTANCE_ID
+  value: "1"
+- displayName: INCIDENT_SERVICE_AVAILABLE_INSTANCE_IDS
+  name: INCIDENT_SERVICE_AVAILABLE_INSTANCE_IDS
+  value: "1"
+- displayName: INCIDENT_ELASTICSEARCH_URL
+  name: INCIDENT_ELASTICSEARCH_URL
+  value: 'elasticsearch:9300'
+- displayName: INCIDENT_DATA_INITIALIZE
+  name: INCIDENT_DATA_INITIALIZE
+  value: 'false'
+- displayName: SOON_SERVER_URL
+  name: SOON_SERVER_URL
+  value: 'http://localhost:8080'
+- displayName: SOON_SERVER_ENABLED
+  name: SOON_SERVER_ENABLED
+  value: 'false'
+- displayName: SOON_SERVER_CALL_PERIOD
+  name: SOON_SERVER_CALL_PERIOD
+  value: '600000'
+- displayName: SOON_PROCESSING_NOT_REGISTERED_ENABLED
+  name: SOON_PROCESSING_NOT_REGISTERED_ENABLED
+  value: 'false'
+- displayName: SOON_PROCESSING_NON_TERMINAL_ENABLED
+  name: SOON_PROCESSING_NON_TERMINAL_ENABLED
+  value: 'false'
+  - displayName: SOON_SERVER_CALL_START_DELAY 
+  name: SOON_SERVER_CALL_START_DELAY
+  value: '0'
+  - displayName: SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY
+  name: SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY
+  value: '10'
+  - displayName: SOURCE_ID_VALUE
+  name: SOURCE_ID_VALUE
+  value: '16428148-20e3-4824-adfb-d34d1db73705'
+  - displayName: APPEAL_TYPE_ID
+  name: APPEAL_TYPE_ID
+  value: ''
+  - displayName: 
+  name: 
+  value: ''
