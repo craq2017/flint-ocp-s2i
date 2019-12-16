@@ -110,4 +110,4 @@ parameters:
   value: flint-ui
 - displayName: REACT_APP_GATEWAY_URL
   name: REACT_APP_GATEWAY_URL
-  value: 'http://gateway-qa-flint.apps.adp.local'
+  value: 'http://gateway-flint.apps.adp.local'
