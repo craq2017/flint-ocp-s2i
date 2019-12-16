@@ -13,6 +13,7 @@ metadata:
     template.openshift.io/bindable: "false"
   creationTimestamp: null
   name: services-ac
+  selfLink: /apis/template.openshift.io/v1/namespaces/template/templates/services-ac
 objects:
 - apiVersion: v1
   kind: Secret
@@ -21,16 +22,16 @@ objects:
   stringData:
     ac-db-password: ${AC_DB_PASSWORD}
     ac-db-user: ${AC_DB_USER}
-    bum-user: ${AC_MMS_USER}
-    bum-password: ${AC_MMS_PASSWORD}
-    ac-incident-db-user: ${AC_INCIDENT_DB_USER}
     ac-incident-db-pwd: ${AC_INCIDENT_DB_PWD}
+    ac-incident-db-user: ${AC_INCIDENT_DB_USER}
+    bum-password: ${AC_MMS_PASSWORD}
+    bum-user: ${AC_MMS_USER}
 - apiVersion: v1
   kind: Service
   metadata:
     annotations:
-      service.alpha.openshift.io/dependencies: '[{"name": "${SERVICE_NAME}",
-        "kind": "Service"}]'
+      service.alpha.openshift.io/dependencies: '[{"name": "${SERVICE_NAME}", "kind":
+        "Service"}]'
     name: ${NAME}
   spec:
     ports:
@@ -56,13 +57,13 @@ objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    annotations:
+    annotations: null
     name: ${NAME}
   spec:
     tags:
     - from:
         kind: DockerImage
-        name: template/app:latest
+        name: template/services-ac:latest
       name: latest
 - apiVersion: v1
   kind: DeploymentConfig
@@ -158,7 +159,7 @@ objects:
             value: http://auth-service-qa:8080
           - name: GC_MAX_METASPACE_SIZE
             value: "256"
-          image: '${NAME}'
+          image: ${NAME}
           name: ${NAME}
           ports:
           - containerPort: 8080
@@ -191,8 +192,8 @@ parameters:
   name: MEMORY_LIMIT
   required: true
   value: 512Mi
-- description: The exposed hostname that will route to the service-ac, if left
-    blank a value will be defaulted.
+- description: The exposed hostname that will route to the service-ac, if left blank
+    a value will be defaulted.
   displayName: Application Hostname
   name: APPLICATION_DOMAIN
 - displayName: Service Name
@@ -210,8 +211,8 @@ parameters:
   required: true
   value: ac
 - displayName: Database User Password
-  required: true
   name: AC_DB_PASSWORD
+  required: true
   value: ac
 - displayName: AC_MIGRATION_ENABLED
   name: AC_MIGRATION_ENABLED
