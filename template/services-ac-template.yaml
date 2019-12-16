@@ -170,8 +170,6 @@ parameters:
   name: NAME
   required: true
   value: services-ac
-  required: true
-  value: template
 - description: Maximum amount of memory the service-ac container can use.
   displayName: Memory Limit
   name: MEMORY_LIMIT
