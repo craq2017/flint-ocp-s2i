@@ -195,24 +195,24 @@ parameters:
 - displayName: QAP_BUM_URL
   name: QAP_BUM_URL
   value: 'http://bum:8080'
- - displayName: QAP_BUM_USER 
+- displayName: QAP_BUM_USER 
   name: QAP_BUM_USER
   value: "user"
- - displayName: QAP_BUM_USER 
+- displayName: QAP_BUM_USER 
   name: QAP_BUM_PASSWORD
   value: "password"
- - displayName: QAP_AC_WF_NAME 
+- displayName: QAP_AC_WF_NAME 
   name: QAP_AC_WF_NAME
   value: 'wf_AC_flint_dev_incident_manual_tsk_loader'
- - displayName: QAP_AUTH_URL
+- displayName: QAP_AUTH_URL
   name: QAP_AUTH_URL
   value: 'http://auth-service:8080'
- - displayName: QAP_INCIDENT_URL
+- displayName: QAP_INCIDENT_URL
   name: QAP_INCIDENT_URL
   value: 'http://incident-core:8080'
- - displayName: QAP_INCIDENT_USER
+- displayName: QAP_INCIDENT_USER
   name: QAP_INCIDENT_USER
   value: "user"
- - displayName: INCIDENT_PASSWORD  
+- displayName: INCIDENT_PASSWORD  
   name: INCIDENT_PASSWORD
   value: "password"
