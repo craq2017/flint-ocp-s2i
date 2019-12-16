@@ -24,7 +24,7 @@ objects:
     qaplan-db-user: ${QAP_DB_USER}
     qaplan-db-password: ${QAP_DB_PASSWORD}
     bum-user: ${QAP_BUM_USER}
-    bum-password: ${BUM_PASSWORD}
+    bum-password: ${QAP_BUM_PASSWORD}
     incident-service-user: ${QAP_INCIDENT_USER}
     incident-service-password: ${QAP_INCIDENT_PASSWORD}
     
