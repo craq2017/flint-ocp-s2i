@@ -71,7 +71,7 @@ objects:
         containers:
         - env:
           - name: REACT_APP_GATEWAY_URL
-            value: 'http://gateway-qa-flint-qa.apps.adp.local'
+            value: ${REACT_APP_GATEWAY_URL}
           image: ${NAME}
           name: ${NAME}
           ports:
@@ -110,4 +110,4 @@ parameters:
   value: flint-ui
 - displayName: REACT_APP_GATEWAY_URL
   name: REACT_APP_GATEWAY_URL
-  value: 'http://gateway-qa-flint-qa.apps.adp.local'
+  value: 'http://gateway-qa-flint.apps.adp.local'
