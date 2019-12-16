@@ -82,9 +82,9 @@ objects:
         containers:
         - env:
           - name: AC_PORT
-            value: "8080"
+            value: ${AC_PORT}
           - name: AC_DB_URL
-            value: jdbc:postgresql://flintdb:5432/ac
+            value: ${AC_DB_URL}
           - name: AC_DB_USER
             valueFrom:
               secretKeyRef:
@@ -98,29 +98,29 @@ objects:
           - name: SERVICE_NAME
             value: ${SERVICE_NAME}
           - name: AC_MIGRATION_ENABLED
-            value: "true"
+            value: ${AC_MIGRATION_ENABLED}
           - name: AC_CE_BUM_TABLE_META
-            value: "86400000"
+            value: ${AC_CE_BUM_TABLE_META}
           - name: AC_CE_SQL_TABLE_META
-            value: "86400000"
+            value: ${AC_CE_SQL_TABLE_META}
           - name: AC_CSUD_HOST_NAME
-            value: http://10.250.25.16:9901
+            value: ${AC_CSUD_HOST_NAME}
           - name: AC_NAME_OF_SUBSYSTEM
-            value: flint-ac
+            value: ${AC_NAME_OF_SUBSYSTEM}
           - name: AC_AR_HOST
-            value: http://analysis-results-qa:8080/analysis-results
+            value: ${AC_AR_HOST}
           - name: AC_LAUNCH_WFNMEUNQ
-            value: tmp_wf_AC_flint_manual_tsk_loader
+            value: ${AC_LAUNCH_WFNMEUNQ}
           - name: AC_LAUNCH_SPARK_MASTER
-            value: local
+            value: ${AC_LAUNCH_SPARK_MASTER}
           - name: AC_LAUNCH_RPE
-            value: "false"
+            value: ${AC_LAUNCH_RPE}
           - name: AC_LAUNCH_E_METASTORE
-            value: thrift://adp-eiap-hnn1.adp.local:9083
+            value: ${AC_LAUNCH_E_METASTORE}
           - name: AC_LAUNCH_METASTORE
-            value: thrift://adp-eiap-hnn1.adp.local:9083
+            value: ${AC_LAUNCH_METASTORE}
           - name: AC_MMS_HOST_NAME
-            value: http://bum:8080
+            value: ${AC_MMS_HOST_NAME}
           - name: AC_MMS_USER
             valueFrom:
               secretKeyRef:
@@ -132,9 +132,9 @@ objects:
                 key: bum-password
                 name: ${NAME}
           - name: AC_INCIDENT_LIMIT
-            value: "10"
+            value: ${AC_INCIDENT_LIMIT}
           - name: AC_INCIDENT_DB_URL
-            value: jdbc:postgresql://flintdb:5432/aresults
+            value: ${AC_INCIDENT_DB_URL}
           - name: AC_INCIDENT_DB_USER
             valueFrom:
               secretKeyRef:
@@ -146,9 +146,9 @@ objects:
                 key: ac-incident-db-pwd
                 name: ${NAME}
           - name: AC_AUTH_URL
-            value: http://auth-service-qa:8080
+            value: ${AC_AUTH_URL}
           - name: GC_MAX_METASPACE_SIZE
-            value: "256"
+            value: ${GC_MAX_METASPACE_SIZE}
           image: ${NAME}
           name: ${NAME}
           ports:
