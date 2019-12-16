@@ -196,18 +196,18 @@ parameters:
 - displayName: SOON_PROCESSING_NON_TERMINAL_ENABLED
   name: SOON_PROCESSING_NON_TERMINAL_ENABLED
   value: 'false'
-  - displayName: SOON_SERVER_CALL_START_DELAY 
+- displayName: SOON_SERVER_CALL_START_DELAY 
   name: SOON_SERVER_CALL_START_DELAY
   value: '0'
-  - displayName: SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY
+- displayName: SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY
   name: SOON_SERVER_MAX_ACTIVE_APPEALS_QUANTITY
   value: '10'
-  - displayName: SOURCE_ID_VALUE
+- displayName: SOURCE_ID_VALUE
   name: SOURCE_ID_VALUE
   value: '16428148-20e3-4824-adfb-d34d1db73705'
-  - displayName: APPEAL_TYPE_ID
+- displayName: APPEAL_TYPE_ID
   name: APPEAL_TYPE_ID
   value: '301'
-  - displayName: TAX_CODE
+- displayName: TAX_CODE
   name: TAX_CODE
   value: '5748'
