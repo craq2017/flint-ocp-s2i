@@ -162,7 +162,7 @@ parameters:
   value: "8080"
 - displayName: RS_DB_URL
   name: RS_DB_URL
-  value:'jdbc:postgresql://flintdb:5432/requests_services'
+  value: 'jdbc:postgresql://flintdb:5432/requests_services'
 - displayName: Database Username
   name: RS_DB_USER
   required: true
