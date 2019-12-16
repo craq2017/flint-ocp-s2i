@@ -78,9 +78,9 @@ objects:
         containers:
         - env:
           - name: AUTH_PORT
-            value: '8080'
+            value: ${AUTH_PORT}
           - name: AUTH_DB_URL
-            value: 'jdbc:postgresql://flintdb:5432/auth_services'
+            value: ${AUTH_DB_URL}
           - name: AUTH_DB_USER
             valueFrom:
               secretKeyRef:
