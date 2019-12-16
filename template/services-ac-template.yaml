@@ -54,17 +54,6 @@ objects:
       kind: Service
       name: ${NAME}
 - apiVersion: v1
-  kind: ImageStream
-  metadata:
-    annotations: null
-    name: ${NAME}
-  spec:
-    tags:
-    - from:
-        kind: DockerImage
-        name: template/services-ac:latest
-      name: latest
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     annotations:
