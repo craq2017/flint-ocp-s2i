@@ -50,6 +50,8 @@ objects:
     name: ${NAME}
   spec:
     host: ${APPLICATION_DOMAIN}
+    port:
+      targetPort: 8080-tcp
     to:
       kind: Service
       name: ${NAME}
