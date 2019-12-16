@@ -1,0 +1,156 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  app: analysis-results
+  template: analysis-results
+message: 'The following service(s) have been created in your project: ${NAME}.'
+metadata:
+  annotations:
+    description: FLINT
+    openshift.io/display-name: analysis-results
+    openshift.io/documentation-url: https://gnivc.ru
+    openshift.io/provider-display-name: GNIVC
+    template.openshift.io/bindable: "false"
+  creationTimestamp: null
+  name: analysis-results
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${NAME}
+  stringData:
+    analysis-results-db-password: ${AR_DB_PASSWORD}
+    analysis-results-db-user: ${AR_DB_USER}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.alpha.openshift.io/dependencies: '[{"name": "${SERVICE_NAME}", "kind":
+        "Service"}]'
+    name: ${NAME}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080-tcp
+    selector:
+      name: ${NAME}
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${NAME}
+  spec:
+    host: ${APPLICATION_DOMAIN}
+    to:
+      kind: Service
+      name: ${NAME}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+    name: ${NAME}
+  spec:
+    replicas: 1
+    selector:
+      name: ${NAME}
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 0%
+        maxUnavailable: 100%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          name: ${NAME}
+        name: ${NAME}
+      spec:
+        containers:
+        - env:
+          - name: AR_PORT
+            value: "8080"
+          - name: AR_DB_URL
+            value: jdbc:postgresql://flintdb:5432/aresults
+          - name: AR_DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: analysis-results-db-user
+                name: ${NAME}
+          - name: AR_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: analysis-results-db-password
+                name: ${NAME}
+          - name: AR_MIGRATION_ENABLED
+            value: "true"
+          - name: AR_DATA_MAX_RESULTS
+            value: "10"
+          - name: AR_LOG_INFO
+            value: info
+          image: ${NAME}
+          name: ${NAME}
+          ports:
+          - containerPort: 8080
+          resources:
+            limits:
+              memory: ${MEMORY_LIMIT}
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}:latest
+      type: ImageChange
+    - type: ConfigChange
+parameters:
+- description: The name assigned to all of the objects defined in this template. For successful deployment there have to be imagestream with same name in chosen namespace.
+  displayName: Name
+  name: NAME
+  required: true
+  value: services-ac
+- description: Maximum amount of memory the service-ac container can use.
+  displayName: Memory Limit
+  name: MEMORY_LIMIT
+  required: true
+  value: 512Mi
+- description: The exposed hostname that will route to the service-ac, if left blank
+    a value will be defaulted.
+  displayName: Application Hostname
+  name: APPLICATION_DOMAIN
+- displayName: Service Name
+  name: SERVICE_NAME
+  required: true
+  value: analysis-results
+- displayName: AR_PORT
+  name: AR_PORT
+  value: "8080"
+- displayName: AR_DB_URL
+  name: AR_DB_URL
+  value: jdbc:postgresql://flintdb:5432/aresults
+- displayName: Database Username
+  name: AR_DB_USER
+  required: true
+  value: ac
+- displayName: Database User Password
+  name: AR_DB_PASSWORD
+  required: true
+  value: ac
+- displayName: AR_MIGRATION_ENABLED
+  name: AR_MIGRATION_ENABLED
+  value: "true"
+- displayName: AR_DATA_MAX_RESULTS
+  name: AR_DATA_MAX_RESULTS
+  value: "10"
+- displayName: AR_LOG_INFO
+  name: AR_LOG_INFO
+  value: "info"
