@@ -1,13 +1,13 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  app: analysis-results
-  template: analysis-results
+  app: flint-analysis-results
+  template: flint-analysis-results
 message: 'The following service(s) have been created in your project: ${NAME}.'
 metadata:
   annotations:
     description: FLINT
-    openshift.io/display-name: analysis-results
+    openshift.io/display-name: flint-analysis-results
     openshift.io/documentation-url: https://gnivc.ru
     openshift.io/provider-display-name: GNIVC
     template.openshift.io/bindable: "false"
