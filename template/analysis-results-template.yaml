@@ -78,9 +78,9 @@ objects:
         containers:
         - env:
           - name: AR_PORT
-            value: "8080"
+            value: ${AR_PORT}
           - name: AR_DB_URL
-            value: jdbc:postgresql://flintdb:5432/aresults
+            value: ${AR_DB_URL}
           - name: AR_DB_USER
             valueFrom:
               secretKeyRef:
@@ -92,11 +92,11 @@ objects:
                 key: analysis-results-db-password
                 name: ${NAME}
           - name: AR_MIGRATION_ENABLED
-            value: "true"
+            value: ${AR_MIGRATION_ENABLED}
           - name: AR_DATA_MAX_RESULTS
-            value: "10"
+            value: ${AR_DATA_MAX_RESULTS}
           - name: AR_LOG_INFO
-            value: info
+            value: ${AR_LOG_INFO}
           image: ${NAME}
           name: ${NAME}
           ports:
