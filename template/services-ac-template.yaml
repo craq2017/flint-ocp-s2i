@@ -216,7 +216,7 @@ parameters:
   value: flint-ac
 - displayName: AC_AR_HOST
   name: AC_AR_HOST
-  value: http://analysis-results-qa:8080/analysis-results
+  value: http://analysis-results:8080/analysis-results
 - displayName: AC_LAUNCH_WFNMEUNQ
   name: AC_LAUNCH_WFNMEUNQ
   value: tmp_wf_AC_flint_manual_tsk_loader
@@ -255,7 +255,7 @@ parameters:
   value: password
 - displayName: AC_AUTH_URL
   name: AC_AUTH_URL
-  value: http://auth-service-qa:8080
+  value: http://auth-service:8080
 - displayName: GC_MAX_METASPACE_SIZE
   name: GC_MAX_METASPACE_SIZE
   value: "256"
