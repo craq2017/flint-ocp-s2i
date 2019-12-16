@@ -176,7 +176,7 @@ parameters:
   displayName: Memory Limit
   name: MEMORY_LIMIT
   required: true
-  value: 512Mi
+  value: 2Gi
 - description: The exposed hostname that will route to the service-ac, if left blank
     a value will be defaulted.
   displayName: Application Hostname
