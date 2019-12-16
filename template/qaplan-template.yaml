@@ -181,11 +181,11 @@ parameters:
 - displayName: Database Username
   name: QAP_DB_USER
   required: true
-  value: ac
+  value: qaplan_services
 - displayName: Database User Password
   name: QAP_DB_PASSWORD
   required: true
-  value: ac
+  value: qaplan_services
 - displayName: QAP_SERVICE_USER
   name: QAP_SERVICE_USER
   value: "user"
@@ -197,10 +197,10 @@ parameters:
   value: 'http://bum:8080'
 - displayName: QAP_BUM_USER 
   name: QAP_BUM_USER
-  value: "user"
+  value: ""
 - displayName: QAP_BUM_PASSWORD 
   name: QAP_BUM_PASSWORD
-  value: "password"
+  value: ""
 - displayName: QAP_AC_WF_NAME 
   name: QAP_AC_WF_NAME
   value: 'wf_AC_flint_dev_incident_manual_tsk_loader'
