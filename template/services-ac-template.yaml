@@ -12,7 +12,7 @@ metadata:
     openshift.io/provider-display-name: GNIVC
     template.openshift.io/bindable: "false"
   creationTimestamp: null
-  name: services-ac
+  name: flint-services-ac
 objects:
 - apiVersion: v1
   kind: Secret
