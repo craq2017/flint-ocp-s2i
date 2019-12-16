@@ -182,9 +182,6 @@ parameters:
   name: NAME
   required: true
   value: services-ac
-- description: Namespace where the ImageStream services-ac is.
-  displayName: Namespace
-  name: NAMESPACE
   required: true
   value: template
 - description: Maximum amount of memory the service-ac container can use.
