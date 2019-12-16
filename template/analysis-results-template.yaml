@@ -142,11 +142,11 @@ parameters:
 - displayName: Database Username
   name: AR_DB_USER
   required: true
-  value: ac
+  value: aresults
 - displayName: Database User Password
   name: AR_DB_PASSWORD
   required: true
-  value: ac
+  value: aresults
 - displayName: AR_MIGRATION_ENABLED
   name: AR_MIGRATION_ENABLED
   value: "true"
