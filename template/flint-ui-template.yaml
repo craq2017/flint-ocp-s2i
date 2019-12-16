@@ -15,13 +15,6 @@ metadata:
   name: flint-ui
 objects:
 - apiVersion: v1
-  kind: Secret
-  metadata:
-    name: ${NAME}
-  stringData:
-    auth-service-db-password: ${AUTH_DB_PASSWORD}
-    auth-service-db-user: ${AUTH_DB_USER}
-- apiVersion: v1
   kind: Service
   metadata:
     annotations:
