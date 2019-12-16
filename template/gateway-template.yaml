@@ -125,19 +125,19 @@ parameters:
   value: "8080"
 - displayName: INCIDENTS_URL
   name: INCIDENTS_URL
-  value: 'http://incident-core-qa:8080'
+  value: 'http://incident-core:8080'
 - displayName: INSPECTIONS_URL
   name: INSPECTIONS_URL
-  value: 'http://qaplan-qa:8080'
+  value: 'http://qaplan:8080'
 - displayName: ANALYSIS_RESULTS_URL
   name: ANALYSIS_RESULTS_URL
-  value: 'http://analysis-results-qa:8080'
+  value: 'http://analysis-results:8080'
 - displayName: ALGORITHMS_URL
   name: ALGORITHMS_URL
-  value: 'http://services-ac-qa:8080/api/v1'
+  value: 'http://services-ac:8080/api/v1'
 - displayName: REQUESTS_URL
   name: REQUESTS_URL
-  value: 'http://services-requests-qa:8080'
+  value: 'http://services-requests:8080'
 - displayName: AUTHORIZATION_URL
   name: AUTHORIZATION_URL
-  value: 'http://auth-service-qa:8080'
+  value: 'http://auth-service:8080'
