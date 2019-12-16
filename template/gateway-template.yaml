@@ -106,7 +106,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: analysis-results
+  value: gateway
 - description: Maximum amount of memory the service-ac container can use.
   displayName: Memory Limit
   name: MEMORY_LIMIT
@@ -119,7 +119,7 @@ parameters:
 - displayName: Service Name
   name: SERVICE_NAME
   required: true
-  value: analysis-results
+  value: gateway
 - displayName: GATEWAY_PORT
   name: GATEWAY_PORT
   value: "8080"
