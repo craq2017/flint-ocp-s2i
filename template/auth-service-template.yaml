@@ -84,7 +84,7 @@ objects:
           - name: AUTH_DB_USER
             valueFrom:
               secretKeyRef:
-                key: auth-service-db-password-user
+                key: auth-service-db-user
                 name: ${NAME}
           - name: AUTH_DB_PASSWORD
             valueFrom:
