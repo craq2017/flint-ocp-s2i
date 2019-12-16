@@ -237,10 +237,10 @@ parameters:
   value: http://bum:8080
 - displayName: AC_MMS_USER
   name: AC_MMS_USER
-  value: user
+  value: 
 - displayName: AC_MMS_PASSWORD
   name: AC_MMS_PASSWORD
-  value: password
+  value: 
 - displayName: AC_INCIDENT_LIMIT
   name: AC_INCIDENT_LIMIT
   value: "10"
@@ -249,10 +249,10 @@ parameters:
   value: jdbc:postgresql://flintdb:5432/aresults
 - displayName: AC_INCIDENT_DB_URL
   name: AC_INCIDENT_DB_USER
-  value: user
+  value: aresults
 - displayName: AC_INCIDENT_DB_PWD
   name: AC_INCIDENT_DB_PWD
-  value: password
+  value: aresults
 - displayName: AC_AUTH_URL
   name: AC_AUTH_URL
   value: http://auth-service:8080
