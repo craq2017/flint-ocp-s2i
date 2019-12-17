@@ -83,6 +83,8 @@ objects:
                 name: ${NAME}
           - name: DM_MIGRATION_ENABLED
             value: ${DM_MIGRATION_ENABLED}
+          - name: DM_LOG_LEVEL
+            value: ${DM_LOG_LEVEL}
           image: ${NAME}
           name: ${NAME}
           ports:
@@ -136,3 +138,6 @@ parameters:
 - displayName: DM_MIGRATION_ENABLED
   name: DM_MIGRATION_ENABLED
   value: "true"
+- displayName: DM_LOG_LEVEL
+  name: DM_LOG_LEVEL
+  value: "info"
