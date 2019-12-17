@@ -1,0 +1,149 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  system: flint
+  app: flint-metrics
+  template: flint-metrics
+message: 'The following service(s) have been created in your project: ${NAME}.'
+metadata:
+  annotations:
+    description: FLINT
+    openshift.io/display-name: flint-metrics
+    openshift.io/documentation-url: https://gnivc.ru
+    openshift.io/provider-display-name: GNIVC
+    template.openshift.io/bindable: "false"
+  creationTimestamp: null
+  name: flint-metrics
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${NAME}
+  stringData:
+    metrics-db-password: ${DM_DB_PASSWORD}
+    metrics-db-user: ${DM_DB_USER}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.alpha.openshift.io/dependencies: '[{"name": "${SERVICE_NAME}", "kind":
+        "Service"}]'
+    name: ${NAME}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      name: ${NAME}
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${NAME}
+  spec:
+    host: ${APPLICATION_DOMAIN}
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: ${NAME}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+    name: ${NAME}
+  spec:
+    replicas: 1
+    selector:
+      name: ${NAME}
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 0%
+        maxUnavailable: 100%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          name: ${NAME}
+        name: ${NAME}
+      spec:
+        containers:
+        - env:
+          - name: DM_PORT
+            value: '8080'
+          - name: DM_DB_URL
+            value: 'jdbc:postgresql://flintdb:5432/metrics'
+          - name: DM_DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: metrics-db-user
+                name: ${NAME}
+          - name: DM_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: metrics-db-password
+                name: ${NAME}
+          - name: DM_MIGRATION_ENABLED
+            value: 'true'
+          image: ${NAME}
+          name: ${NAME}
+          ports:
+          - containerPort: 8080
+          resources:
+            limits:
+              memory: ${MEMORY_LIMIT}
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}:latest
+      type: ImageChange
+    - type: ConfigChange
+parameters:
+- description: The name assigned to all of the objects defined in this template. For successful deployment there have to be imagestream with same name in chosen namespace.
+  displayName: Name
+  name: NAME
+  required: true
+  value: metrics
+- description: Maximum amount of memory the service-ac container can use.
+  displayName: Memory Limit
+  name: MEMORY_LIMIT
+  required: true
+  value: 1Gi
+- description: The exposed hostname that will route to the service-ac, if left blank
+    a value will be defaulted.
+  displayName: Application Hostname
+  name: APPLICATION_DOMAIN
+- displayName: Service Name
+  name: SERVICE_NAME
+  required: true
+  value: metrics
+- displayName: DM_PORT
+  name: DM_PORT
+  value: "8080"
+- displayName: DM_DB_URL
+  name: DM_DB_URL
+  value: 'jdbc:postgresql://flintdb:5432/metrics'
+- displayName: Database Username
+  name: DM_DB_USER
+  required: true
+  value: auth_services
+- displayName: Database User Password
+  name: DM_DB_PASSWORD
+  required: true
+  value: auth_services
+- displayName: DM_MIGRATION_ENABLED
+  name: DM_MIGRATION_ENABLED
+  value: true
