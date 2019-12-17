@@ -1,7 +1,7 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  app: flint
+  system: flint
   app: flint-auth-service
   template: flint-auth-service
 message: 'The following service(s) have been created in your project: ${NAME}.'
