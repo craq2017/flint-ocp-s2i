@@ -1,6 +1,7 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
+  app: flint
   app: flint-incident-core
   template: flint-incident-core
 message: 'The following service(s) have been created in your project: ${NAME}.'
