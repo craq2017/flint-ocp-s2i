@@ -28,7 +28,6 @@ objects:
     bum-password: ${QAP_BUM_PASSWORD}
     incident-service-user: ${QAP_INCIDENT_USER}
     incident-service-password: ${QAP_INCIDENT_PASSWORD}
-    
 - apiVersion: v1
   kind: Service
   metadata:
@@ -48,17 +47,6 @@ objects:
     type: ClusterIP
   status:
     loadBalancer: {}
-- apiVersion: v1
-  kind: Route
-  metadata:
-    name: ${NAME}
-  spec:
-    host: ${APPLICATION_DOMAIN}
-    port:
-      targetPort: 8080
-    to:
-      kind: Service
-      name: ${NAME}
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:

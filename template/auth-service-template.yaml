@@ -42,17 +42,6 @@ objects:
   status:
     loadBalancer: {}
 - apiVersion: v1
-  kind: Route
-  metadata:
-    name: ${NAME}
-  spec:
-    host: ${APPLICATION_DOMAIN}
-    port:
-      targetPort: 8080
-    to:
-      kind: Service
-      name: ${NAME}
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     annotations:
