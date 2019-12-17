@@ -79,9 +79,9 @@ objects:
         containers:
         - env:
           - name: DM_PORT
-            value: '8080'
+            value: ${DM_PORT}
           - name: DM_DB_URL
-            value: 'jdbc:postgresql://flintdb:5432/metrics'
+            value: ${DM_DB_URL}
           - name: DM_DB_USER
             valueFrom:
               secretKeyRef:
@@ -93,7 +93,7 @@ objects:
                 key: metrics-db-password
                 name: ${NAME}
           - name: DM_MIGRATION_ENABLED
-            value: 'true'
+            value: ${DM_MIGRATION_ENABLED}
           image: ${NAME}
           name: ${NAME}
           ports:
