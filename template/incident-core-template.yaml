@@ -164,11 +164,11 @@ parameters:
 - displayName: Database Username
   name: INCIDENT_DB_USER
   required: true
-  value: ac
+  value: flint_incident
 - displayName: Database User Password
   name: INCIDENT_DB_PASSWORD
   required: true
-  value: ac
+  value: flint_incident
 - displayName: INCIDENT_SERVICE_INSTANCE_ID
   name: INCIDENT_SERVICE_INSTANCE_ID
   value: "1"
