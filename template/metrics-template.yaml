@@ -85,6 +85,12 @@ objects:
             value: ${DM_MIGRATION_ENABLED}
           - name: DM_LOG_LEVEL
             value: ${DM_LOG_LEVEL}
+          - name: DM_CACHE_CHECK_DICT
+            value: ${DM_CACHE_CHECK_DICT}
+          - name: DM_API_INCIDENTS
+            value: ${DM_API_INCIDENTS}
+          - name: DM_API_CHECKS
+            value: ${DM_API_CHECKS}
           image: ${NAME}
           name: ${NAME}
           ports:
@@ -141,3 +147,12 @@ parameters:
 - displayName: DM_LOG_LEVEL
   name: DM_LOG_LEVEL
   value: "info"
+- displayName: DM_CACHE_CHECK_DICT
+  name: DM_CACHE_CHECK_DICT
+  value: "3600000"
+- displayName: DM_API_INCIDENTS
+  name: DM_API_INCIDENTS
+  value: "http://incident-core:8080/metric"
+- displayName: DM_API_CHECKS
+  name: DM_API_CHECKS
+  value: "http://qaplan:8080"
