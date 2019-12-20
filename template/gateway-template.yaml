@@ -73,6 +73,8 @@ objects:
         - env:
           - name: GATEWAY_PORT
             value: ${GATEWAY_PORT}
+          - name: GATEWAY_BASE_PATH
+            value: ${GATEWAY_BASE_PATH}            
           - name: INCIDENTS_URL
             value: ${INCIDENTS_URL}
           - name: INSPECTIONS_URL
@@ -85,6 +87,8 @@ objects:
             value: ${REQUESTS_URL}
           - name: AUTHORIZATION_URL
             value: ${AUTHORIZATION_URL}
+          - name: METRICS_URL
+            value: ${METRICS_URL}            
           image: ${NAME}
           name: ${NAME}
           ports:
@@ -124,6 +128,9 @@ parameters:
 - displayName: GATEWAY_PORT
   name: GATEWAY_PORT
   value: "8080"
+- displayName: GATEWAY_BASE_PATH
+  name: GATEWAY_BASE_PATH
+  value: "/api"
 - displayName: INCIDENTS_URL
   name: INCIDENTS_URL
   value: 'http://incident-core:8080'
@@ -142,3 +149,6 @@ parameters:
 - displayName: AUTHORIZATION_URL
   name: AUTHORIZATION_URL
   value: 'http://auth-service:8080'
+- displayName: METRICS_URL
+  name: METRICS_URL
+  value: 'http://metrics:8080'
